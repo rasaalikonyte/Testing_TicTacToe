@@ -1,9 +1,9 @@
-describe("Check for header with text hello", () => {
-  it("should find a header with text hello", () => {
+describe("Check for text Next player: X", () => {
+  it("should find a text Next player: X", () => {
     // Visit the page you want to test
-    cy.visit("your-page-url");
+    cy.visit("http://localhost:5173/");
 
     // Check for the header with text 'hello'
-    cy.contains("header", "hello").should("exist");
+    cy.contains("div", "Next player: X").should("exist");
   });
 });
