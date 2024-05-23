@@ -3,26 +3,19 @@
 //     cy.visit("http://localhost:5173/");
 //     cy.contains("div", "Next player: X").should("exist");
 //   });
-// it("should find a text Next player: O", () => {
-//   // Visit the page you want to test
-//   cy.visit("http://localhost:5173/");
-//   // Check for the text "Next player: O"
-//   cy.contains("div", "Next player: O").should("exist");
-// });
-// });
 
 describe("Cypress Tests for Tic-Tac-Toe Game", () => {
   beforeEach(() => {
-    // Assuming your game is hosted at localhost:3000
+    // Assuming your game is hosted at localhost:5173
     cy.visit("http://localhost:5173/");
   });
 
   it("should display the initial game state", () => {
+    cy.get(".game-info div").should("contain", "Next player: X");
     cy.get(".square").should("have.length", 9);
     cy.get(".square").each(($el) => {
       cy.wrap($el).should("be.empty");
     });
-    cy.get(".game-info div").should("contain", "Next player: X");
   });
 
   it("should handle a single move", () => {

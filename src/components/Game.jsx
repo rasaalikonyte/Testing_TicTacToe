@@ -1,5 +1,5 @@
 // src/components/Game.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./Board";
 
 const Game = () => {
@@ -18,11 +18,42 @@ const Game = () => {
     if (winner || squares[i]) {
       return;
     }
-    squares[i] = xIsNext ? "X" : "O";
+    squares[i] = "X";
     setHistory(newHistory.concat([{ squares }]));
     setStepNumber(newHistory.length);
-    setXIsNext(!xIsNext);
+    setXIsNext(false);
   };
+
+  const aiMove = () => {
+    const newHistory = history.slice(0, stepNumber + 1);
+    const current = newHistory[newHistory.length - 1];
+    const squares = current.squares.slice();
+
+    if (winner) {
+      return;
+    }
+
+    const emptySquares = squares
+      .map((square, index) => (square === null ? index : null))
+      .filter((index) => index !== null);
+
+    if (emptySquares.length === 0) {
+      return;
+    }
+
+    const randomIndex =
+      emptySquares[Math.floor(Math.random() * emptySquares.length)];
+    squares[randomIndex] = "O";
+    setHistory(newHistory.concat([{ squares }]));
+    setStepNumber(newHistory.length);
+    setXIsNext(true);
+  };
+
+  useEffect(() => {
+    if (!xIsNext && !winner) {
+      aiMove();
+    }
+  }, [xIsNext, winner]);
 
   const jumpTo = (step) => {
     setStepNumber(step);
